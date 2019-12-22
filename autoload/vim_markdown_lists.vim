@@ -25,51 +25,40 @@ function! vim_markdown_lists#toggle_task() abort
   else
     " do nothing
   end
+
+function! s:handle_empty_list(prepend)
+  if a:prepend
+    " since we prepended, clear the line below
+    call setline(line(".") + 1, "")
+  else
+    " since we appended, clear the line above
+    call setline(line(".") - 1, "")
+  endif
 endfunction
 
 function! s:complete_list(prepend, context_line)
-  if a:context_line =~ '\v^\d+\.\s.'
-    " The context line matches any number of digits followed by a full-stop
-    " followed by one character of whitespace followed by one more character
-    " i.e. it is an ordered list item
+ let l:marker_pattern = '\v^\s*(\d+\.|[-\*])'
+  let l:marker = matchstr(a:context_line, l:marker_pattern)
+
+  if a:context_line =~ l:marker_pattern . '\s.'
+    " The context line matches any number of digits followed by a fullstop or an
+    " unodered list marker (- or *) followed by one character of whitespace
+    " followed by one more character i.e. it is a list
 
     " Continue the list
-    let l:list_index = matchstr(a:context_line, '\v^\d*')
-    if a:prepend
-      call setline(".", l:list_index . ". ")
-    else
-      call setline(".", l:list_index . ". ")
-    end
-  elseif a:context_line =~ '\v^\d+\.\s$'
-    " The context line matches any number of digits followed by a full-stop
-    " followed by one character of whitespace followed by nothing
-    " i.e. it is an empty ordered list item
+    call setline(".", l:marker . ' ')
+  elseif a:context_line =~ l:marker_pattern . '\s$'
+    " else if the list matches everything above but ends with nothing i.e. it's
+    " an empty list
 
     " End the list and clear the empty item
-    if a:prepend
-      call setline(line(".") + 1, "")
-    else
-      call setline(line(".") - 1, "")
-    end
-  elseif a:context_line[0] == "-" && a:context_line[1] == " "
-    " The previous line is an unordered list item
-    if strlen(a:context_line) == 2
-      " ...which is empty: end the list and clear the empty item
-      if a:prepend
-        call setline(line(".") + 1, "")
-      else
-        call setline(line(".") - 1, "")
-      end
-    else
-      " ...which is not empty: continue the list
-      call setline(".", "- ")
-    endif
+    call s:handle_empty_list(a:prepend)
   endif
 endfunction
 
 " Auto lists: Automatically continue/end lists by adding markers if the
 " previous line is a list item, or removing them when they are empty
-" from: https://gist.github.com/sedm0784/dffda43bcfb4728f8e90
+" inspired by: https://gist.github.com/sedm0784/dffda43bcfb4728f8e90
 function! vim_markdown_lists#auto_list(prepend)
   if a:prepend
     let l:context_line = getline(line(".") + 1)
@@ -77,5 +66,5 @@ function! vim_markdown_lists#auto_list(prepend)
   else
     let l:context_line = getline(line(".") - 1)
     call s:complete_list(a:prepend, l:context_line)
-  end
+  endif
 endfunction
