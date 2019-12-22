@@ -1,4 +1,4 @@
-function! vim_markdown_lists#toggle_task() abort
+function! vim_text_lists#toggle_task() abort
   let l:current_line = getline(".")
   if l:current_line =~ '\v^\s*[-\*]\s\[[X]*\]\s'
     " if the current line starts with an arbitrary number of whitespace followed
@@ -30,7 +30,7 @@ function! vim_markdown_lists#toggle_task() abort
   endif
 endfunction
 
-function! s:handle_empty_list(prepend)
+function! s:handle_empty_list(prepend) abort
   if a:prepend
     " since we prepended, clear the line below
     call setline(line(".") + 1, "")
@@ -40,7 +40,7 @@ function! s:handle_empty_list(prepend)
   endif
 endfunction
 
-function! s:complete_list(prepend, context_line)
+function! s:complete_list(prepend, context_line) abort
  let l:marker_pattern = '\v^\s*(\d+\.|[-\*])'
   let l:marker = matchstr(a:context_line, l:marker_pattern)
 
@@ -63,7 +63,7 @@ endfunction
 " Auto lists: Automatically continue/end lists by adding markers if the
 " previous line is a list item, or removing them when they are empty
 " inspired by: https://gist.github.com/sedm0784/dffda43bcfb4728f8e90
-function! vim_markdown_lists#auto_list(prepend)
+function! vim_text_lists#auto_list(prepend) abort
   if a:prepend
     let l:context_line = getline(line(".") + 1)
     call s:complete_list(a:prepend, l:context_line)
