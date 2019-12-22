@@ -14,17 +14,21 @@ function! vim_markdown_lists#toggle_task() abort
     substitute/\v^\s*[-\*]\s\zs\[[^\]]*\]\ze\s/[X]
   elseif l:current_line =~ '\v^\s*[-\*]\s'
     " if the current line starts with an arbitrary number of whitespace followed
-    " by a `-` or `*` followed by a single whitespace then mae the line an
+    " by a `-` or `*` followed by a single whitespace then make the line an
     " incomplete task.
     " NOTE: the trailing whitespace is intentional
     substitute/\v^\s*[-\*]\s\zs\ze/[ ] 
+  elseif l:current_line =~ '\v^\s*\d+\.\s'
+    " if the current line starts with an arbitrary number of whitespace followed
+    " by digits followed by a `.` followed by a single whitespace then make the
+    " line an incomplete task.
+    substitute/\v^\s*\zs\d+\.\ze\s/- [ ]
   elseif l:current_line =~ '\v^[A-Za-z]'
     " if the line starts with an alphabet, make it an unordered list.
     " NOTE: the trailing whitespace is intentional
     substitute/\v\zs\ze^[A-Za-z]/- 
-  else
-    " do nothing
-  end
+  endif
+endfunction
 
 function! s:handle_empty_list(prepend)
   if a:prepend
