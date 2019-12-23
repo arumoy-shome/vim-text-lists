@@ -16,6 +16,10 @@ This plugin provides utility functions for working with lists in (neo)vim. Namel
 
 Use your preferred mode of installation either with your favourite plugin manager or simply use git.
 
+# Requirements [sec:requirements]
+
+I assume it should work fine on recent versions of vim and neovim.
+
 # Rational [sec:rational]
 
 Currently `-` and `*` are recognized as unordered list markers. For ordered list, the number of the previous line is used since markdown automatically takes care of incrementing the numbers when rendering. Supporting auto increment is possible but opens up a lot of edge cases that need to be handled (e.g. negative numbers). Of course contributions are more than welcome if anybody wants to implement this feature!
