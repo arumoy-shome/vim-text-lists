@@ -10,7 +10,7 @@ This plugin provides utility functions for working with lists in (neo)vim. Namel
 - `<CR>` in insert mode: continue list below.
 - `o` in normal mode: continue list below.
 - `O` in normal mode: continue list above.
-- `<C-c C-c` (hold `ctrl` and press `c` twice) in normal and insert mode: toggle between list states.
+- `<C-c C-c` (hold `ctrl` and press `c` twice) in normal mode: toggle between list states.
 
 # Installation [sec:installation]
 
