@@ -9,5 +9,5 @@ endfunction
 augroup VimTextLists
   autocmd!
 
-  autocmd BufNewFile,BufRead *.md,*.txt,*.gitcommit call s:define_bindings()
+  autocmd FileType markdown,text,gitcommit call s:define_bindings()
 augroup END
