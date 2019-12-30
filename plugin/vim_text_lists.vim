@@ -1,3 +1,8 @@
+if exists("g:loaded_vtl")
+  finish
+endif
+let g:loaded_vtl = 1
+
 function! s:define_bindings() abort
   nmap <buffer> <C-c><C-c> :call vim_text_lists#toggle_task()<CR>
 
