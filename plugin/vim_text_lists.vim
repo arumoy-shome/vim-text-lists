@@ -4,11 +4,11 @@ endif
 let g:loaded_vtl = 1
 
 function! s:define_bindings() abort
-  nmap <buffer> <C-c><C-c> :call vim_text_lists#toggle_task()<CR>
+  nmap <buffer> <silent> <C-c><C-c> :call vim_text_lists#toggle_task()<CR>
 
-  nnoremap <buffer> o o<Esc>:call vim_text_lists#auto_list(0)<CR>A
-  nnoremap <buffer> O O<Esc>:call vim_text_lists#auto_list(1)<CR>A
-  inoremap <buffer> <CR> <CR><Esc>:call vim_text_lists#auto_list(0)<CR>A
+  nnoremap <buffer> <silent> o o<Esc>:call vim_text_lists#auto_list(0)<CR>A
+  nnoremap <buffer> <silent> O O<Esc>:call vim_text_lists#auto_list(1)<CR>A
+  inoremap <buffer> <silent> <CR> <CR><Esc>:call vim_text_lists#auto_list(0)<CR>A
 endfunction
 
 augroup VimTextLists
