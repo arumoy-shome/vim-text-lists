@@ -1,4 +1,4 @@
-function! vim_text_lists#toggle_task() abort
+function! vtl#toggle_task() abort
   let l:current_line = getline(".")
   if l:current_line =~ '\v^\s*[-\*]\s\[[X]*\]\s'
     " if the current line starts with an arbitrary number of whitespace followed
@@ -40,14 +40,32 @@ function! s:handle_empty_list(prepend) abort
   endif
 endfunction
 
-function! s:complete_list(prepend, context_line) abort
- let l:marker_pattern = '\v^\s*(\d+\.|[-\*])'
+function! s:get_marker_pattern(ft) abort
+  " match 'very magic' at begining of line, arbitrary whitespace followed by the
+  " following list markers:
+  let l:marker_pattern = '\v^\s*'
+  " - arbitrary number of digits followed by a `.` or (markdown ordered list)
+  " - a single `-` or `*` or (markdown unordered list)
+  let l:md_marker_pattern = '(\d+\.|[-\*]|\\li)'
+  " - a single `\item` (tex list)
+  let l:tex_marker_pattern = '\\item'
+
+  if a:ft == 'tex'
+    let l:marker_pattern .= l:tex_marker_pattern
+  else
+    let l:marker_pattern .= l:md_marker_pattern
+  endif
+
+  return l:marker_pattern
+endfunction
+
+function! s:complete_list(prepend, ft, context_line) abort
+  let l:marker_pattern = s:get_marker_pattern(a:ft)
   let l:marker = matchstr(a:context_line, l:marker_pattern)
 
   if a:context_line =~ l:marker_pattern . '\s.'
-    " The context line matches any number of digits followed by a fullstop or an
-    " unodered list marker (- or *) followed by one character of whitespace
-    " followed by one more character i.e. it is a list
+    " The context line matches the marker_pattern followed by one character of
+    " whitespace followed by one more character i.e. it is a list
 
     " Continue the list
     call setline(".", l:marker . ' ')
@@ -63,12 +81,12 @@ endfunction
 " Auto lists: Automatically continue/end lists by adding markers if the
 " previous line is a list item, or removing them when they are empty
 " inspired by: https://gist.github.com/sedm0784/dffda43bcfb4728f8e90
-function! vim_text_lists#auto_list(prepend) abort
+function! vtl#auto_list(prepend, ft) abort
   if a:prepend
     let l:context_line = getline(line(".") + 1)
-    call s:complete_list(a:prepend, l:context_line)
+    call s:complete_list(a:prepend, a:ft, l:context_line)
   else
     let l:context_line = getline(line(".") - 1)
-    call s:complete_list(a:prepend, l:context_line)
+    call s:complete_list(a:prepend, a:ft, l:context_line)
   endif
 endfunction
