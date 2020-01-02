@@ -5,9 +5,9 @@ let g:loaded_vtl = 1
 
 function! s:define_bindings(scope) abort
   if a:scope == 'auto_list'
-    nnoremap <buffer> <silent> o o<Esc>:call vtl#auto_list(0, &ft)<CR>A
-    nnoremap <buffer> <silent> O O<Esc>:call vtl#auto_list(1, &ft)<CR>A
-    inoremap <buffer> <silent> <CR> <CR><Esc>:call vtl#auto_list(0, &ft)<CR>A
+    nnoremap <buffer> <silent> o o<Esc>:call vtl#auto_list(0, &ft, 'n')<CR>
+    nnoremap <buffer> <silent> O O<Esc>:call vtl#auto_list(1, &ft, 'n')<CR>
+    inoremap <buffer> <silent> <CR> <CR><Esc>:call vtl#auto_list(0, &ft, 'i')<CR>
   endif
 
   if a:scope == 'toggle_task'

@@ -81,7 +81,12 @@ endfunction
 " Auto lists: Automatically continue/end lists by adding markers if the
 " previous line is a list item, or removing them when they are empty
 " inspired by: https://gist.github.com/sedm0784/dffda43bcfb4728f8e90
-function! vtl#auto_list(prepend, ft) abort
+function! vtl#auto_list(prepend, ft, mode) abort
+  if a:mode == 'i' && col(".") != col("$")
+    startinsert
+    return
+  endif
+
   if a:prepend
     let l:context_line = getline(line(".") + 1)
     call s:complete_list(a:prepend, a:ft, l:context_line)
@@ -89,4 +94,6 @@ function! vtl#auto_list(prepend, ft) abort
     let l:context_line = getline(line(".") - 1)
     call s:complete_list(a:prepend, a:ft, l:context_line)
   endif
+
+  startinsert!
 endfunction
