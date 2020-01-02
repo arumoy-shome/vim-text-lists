@@ -11,10 +11,10 @@ Currently markdown, text, gitcommit and tex filetypes are supported. The same li
 
 # Key bindings
 
-- `<CR>` in insert mode: continue list below.
+- `<CR>` in insert mode at eol: continue list below.
 - `o` in normal mode: continue list below.
 - `O` in normal mode: continue list above.
-- `<C-c C-c` (hold `ctrl` and press `c` twice) in normal mode: toggle between list states.
+- `<C-c C-c>` (hold `ctrl` and press `c` twice) in normal mode: toggle between list states.
 
 # Installation
 
