@@ -3,11 +3,11 @@
 This plugin provides utility functions for working with lists in (neo)vim. Namely, the plugin provides the following functionality:
 
 1. automatically continues an ordered or unordered list in both directions.
-1. toggle between the following states: unordered list item -> incomplete task -> complete task -> unordered list item (md, txt and git buffers only).
+1. toggle between the following states: unordered list item -> incomplete task -> complete task -> unordered list item (md, txt and gitcommit buffers only).
 
 # Supported filetypes
 
-Currently markdown, text, git and tex filetypes are supported. The same list markers are assumed for markdown, text and git buffers. The supported list markers can be found in `vtl#get_marker_pattern`.
+Currently markdown, text, gitcommit and tex filetypes are supported. The same list markers are assumed for markdown, text and gitcommit buffers. The supported list markers can be found in `vtl#get_marker_pattern`.
 
 # Key bindings
 
